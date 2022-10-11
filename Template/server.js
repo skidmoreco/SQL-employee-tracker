@@ -21,12 +21,12 @@ const starterQuestions = await inquirer.prompt([
         "Update Employee Role",
         "View All Roles",
         "Add Role",
-        "View All Departments",
         "Add Department",
+        "View All Departments",
         "Quit Application"
       ]},
     ])
-    // SWITCH STATEMENT THAT DIRECTS THE USER TO PROPER FUNCTION / "TRAFFIC CONTROL GUY"
+    // SWITCH STATEMENT THAT DIRECTS THE USER TO PROPER FUNCTION 
     switch (starterQuestions.choice) {
       case "Add Employee":
         employeePrompt()
@@ -43,11 +43,11 @@ const starterQuestions = await inquirer.prompt([
         case "Add Role":
         rolePrompt()
         break;
+        case "Add Department":
+        addDepartment()
+        break;
         case "View All Departments":
         viewDepartments()
-        break;
-        case "Add Department":
-        
         break;
         case "Quit Application":
         quit()
@@ -58,13 +58,58 @@ const starterQuestions = await inquirer.prompt([
         break;
     }
     
-  } 
+  };
  
   function backToHome () {
     startApplication()
   };
-  
+  // Asynchronous function that allows the user to add a department to the database.
+  async function addDepartment () {
+    const departmentInfo = await inquirer.prompt([
+      {
+        type: 'input',
+        message: 'What is the name of the department?',
+        name: 'dName'
+      }
+    ]);
+    await db.promise().query(`INSERT INTO department (department_name) VALUES ('${departmentInfo.dName}')`)
+    backToHome();
+  }
 
+  // Asynchronous function that allows the user to add an employee to the database.
+  async function employeePrompt () {
+    const employeeInfo = await inquirer.prompt([
+    {
+        type: 'input',
+        message: 'What is the employees first name?',
+        name: 'firstName'
+    },
+    {
+        type: 'input',
+        message: 'What is the employees last name?',
+        name: 'lastName'
+    },
+    {
+        type: 'input',
+        message: 'What is the employees role?',
+        name: 'employeeRole'
+    },
+    {
+        type: 'input',
+        message: 'Who is the employees manager?',
+        name: 'managerName'
+    }
+    ]);
+    //Using the db.query method this allows the information that was inputted into the application to be added to the employee table
+    db.query(`
+    INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    VALUES ('${employeeInfo.firstName}', '${employeeInfo.lastName}', ${employeeInfo.employeeRole}, ${employeeInfo.managerName})
+    `)
+    backToHome();
+ }
+
+
+ // Asynchronous function that allows the user to view all employees currently in the database
   async function viewEmployees () {
     const roster = await db.promise().query('SELECT * FROM employee')
     console.table(roster[0])
@@ -73,9 +118,11 @@ const starterQuestions = await inquirer.prompt([
       type: "input",
       name: "pause"
     })
-    backToHome()
+    //Allows the user to select enter and be taken back to the homepage.
+    backToHome();
   };
-
+  
+  // Asynchronous function that allows the user to view all roles currently stored in the database.
   async function viewRoles() {
     const roles = await db.promise().query('SELECT * FROM roles')
     console.table(roles[0])
@@ -87,6 +134,7 @@ const starterQuestions = await inquirer.prompt([
     backToHome()
   };
 
+  // Asynchronous function that allows the user to view all departments currently stored in the database.
   async function viewDepartments() {
     const department = await db.promise().query('SELECT * FROM department')
     console.table(department[0])
@@ -98,13 +146,13 @@ const starterQuestions = await inquirer.prompt([
     backToHome()
   };
 
-
+// Asynchronous function that allows the user to add a role to the database.
   async function rolePrompt () {
       const newRole = await inquirer.prompt([
       {
           type: 'input',
           message: 'What is the name of the role?',
-          name: 'role_id'
+          name: 'roleId'
       },
       {
           type: 'input',
@@ -113,43 +161,15 @@ const starterQuestions = await inquirer.prompt([
       },
       {
           type: 'input',
-          message: 'Which deparetment does this role belong to?',
+          message: 'Which department does this role belong to?',
           name: 'department'
       }
     ]);
-  
-   }
-
-   async function employeePrompt () {
-      const employeeInfo = await inquirer.prompt([
-      {
-          type: 'input',
-          message: 'What is the employees first name?',
-          name: 'firstName'
-      },
-      {
-          type: 'input',
-          message: 'What is the employees last name?',
-          name: 'lastName'
-      },
-      {
-          type: 'input',
-          message: 'What is the employees role?',
-          name: 'employeeRole'
-      },
-      {
-          type: 'input',
-          message: 'Who is the employees manager?',
-          name: 'managerName'
-      }
-      ]);
-      db.query(`
-      INSERT INTO employee (first_name, last_name, role_id, manager_id)
-      VALUES ('${employeeInfo.firstName}', '${employeeInfo.lastName}', ${employeeInfo.employeeRole}, ${employeeInfo.managerName})
-      `)
+      db.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ('${newRole.roleId}', ${newRole.salary}, '${newRole.department}')`)
       backToHome();
-   };
-
+   }
+  
+    // Asynchronous function that allows the user to update a specific employee based on the employees ID.
     async function updateEmployee () {
       const list = await db.promise().query('SELECT * FROM employee');
       console.table(list[0]);
@@ -159,6 +179,8 @@ const starterQuestions = await inquirer.prompt([
           message: 'Enter the ID of the employee you wish to update',
           name: 'id'
       }]);
+
+      //Once the user has selected the specific employee, this allows the user to update all information about the employee that was selected.
       const employee = await db.promise().query(`SELECT * FROM employee WHERE id=${memberID.id}`)
       const updatedInfo = await inquirer.prompt([
           {
@@ -195,6 +217,8 @@ const starterQuestions = await inquirer.prompt([
     };
 
 
+
+    
 // Exit the application
 function quit() {
   console.log("Goodbye!");
@@ -203,7 +227,5 @@ function quit() {
 
 startApplication();
 
-// TO DO: ADD ROLE & ADD DEPARTMENT 
 // TO DO: ADD QUERIES TO SHOW (LOOK UP: CONCAT, FROM, JOINS, ORDER)
-// TO DO: PROPERLY COMMENT CODE
 // TO DO: PROPERLY WALK THROUGH CODE IN VIDEO SUBMISSION
