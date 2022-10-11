@@ -165,7 +165,7 @@ const starterQuestions = await inquirer.prompt([
           name: 'department'
       }
     ]);
-      db.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ('${newRole.roleId}', ${newRole.salary}, '${newRole.department}')`)
+      await db.promise().query(`INSERT INTO roles (title, salary, department_id) VALUES ('${newRole.roleId}', ${newRole.salary}, '${newRole.department}')`)
       backToHome();
    }
   
