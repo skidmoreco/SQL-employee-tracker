@@ -111,7 +111,7 @@ const starterQuestions = await inquirer.prompt([
 
  // Asynchronous function that allows the user to view all employees currently in the database
   async function viewEmployees () {
-    const roster = await db.promise().query('SELECT * FROM employee')
+    const roster = await db.promise().query(`SELECT e.first_name AS First, e.last_name AS Last, e.role_id AS ID, e.manager_id AS Manager, r.salary AS Salary, r.title AS Title, d.department_name AS Department FROM employee e LEFT JOIN employee m ON e.manager_id = m.id LEFT JOIN roles r ON e.role_id = r.title LEFT JOIN department d ON r.department_id = d.id`)
     console.table(roster[0])
     await inquirer.prompt({
       message: "Hit enter to go back to homepage!",
