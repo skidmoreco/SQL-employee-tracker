@@ -11,7 +11,7 @@ FROM employee e
 LEFT JOIN employee m
     ON e.manager_id = m.id
 
-    -- JOIN roles to employee table
+    -- JOIN role to employee table
 LEFT JOIN roles r
     ON e.role_id = r.title
 
