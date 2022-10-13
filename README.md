@@ -32,8 +32,8 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 ## SCREENSHOTS:
 ---
-<img src="./assets/SC1.png" alt="Screenshot of Start Application loading into console.">
-<img src="./assets/SC2.png" alt="Screenshot of View Employees table showcasing all employee info">
+<img src="/assets/SC1.png" alt="Screenshot of Start Application loading into console.">
+<img src="/assets/SC2.png" alt="Screenshot of View Employees table showcasing all employee info">
 
 ## LICENSE:
 --- 
