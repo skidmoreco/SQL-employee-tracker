@@ -5,15 +5,12 @@ SELECT
     r.salary AS Salary,
     r.title AS Title,
     d.department_name AS Department
-
-    -- JOIN employee to itself
-FROM employee e
-LEFT JOIN employee m
-    ON e.manager_id = m.id
+    
+    FROM employee e
 
     -- JOIN role to employee table
 LEFT JOIN roles r
-    ON e.role_id = r.title
+    ON e.role_id = r.id
 
     -- JOIN department to roles table
 LEFT JOIN department d
