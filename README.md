@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ---
-# 12 SQL: SQL-employee-tracker
+# Module 12 SQL: SQL-employee-tracker
 
 As an assignment for The Ohio State University Bootcamp. We were required to create a fully functional employee database that an employer could use to view, update, add, & delete employee information using SQL. 
 
@@ -29,6 +29,7 @@ THEN I am prompted to select an employee to update and their new role and this i
 ## Live Site: 
 ---
 [GitHub pages](https://github.com/skidmoreco/SQL-employee-tracker)
+[Google Drive Link](https://drive.google.com/file/d/1Py_aLS7SkUIapnNmT9OlQ_DeLrPADyQB/view)
 
 ## SCREENSHOTS:
 ---
